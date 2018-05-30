@@ -1,0 +1,33 @@
+Loading data from external dataset rather than parallelizing.
+As most users are aware, that there are two ways to create an RDD.
+a)      Parallelize a collection
+b)      Load from external dataset
+The first option is not the preferred option as the data goes to the driver program and incase if the data is huge it might crash the driver JVM.
+2.       Filter transformations gives the same number of Child RDD Partitions as the Parent RDD Partitions.
+So after a filter transformation we can use Coalesce (n) to bring down the number of partitions to n partitions.
+Note: Here n is the number of partitions.
+3.       Collect action ships all the required data to Driver Program JVM
+Do not call collect on something like 1TB of data, that will cause collect to come at driver and crash the driver. Instead either save to HDFS or sample the bigger RDD to smaller just to see the results while testing.
+
+4.       Use Persist or Cache
+When we are sure that the data is clean and might be required again and again.
+Eg : Like after map or filter use cache to cache the data to memory.
+This will reduce the re computation time for RDD.
+
+5.       Narrow Transformation vs Wide Transformation
+Narrow à Can happen in parallel, not dependent on other partitions.
+Wide à  Where multiple child partitions may depend on it.
+
+Always prefer Narrow transformation if possible.
+  
+Most of the transformations work element wise. Like map/filter works on each element and each partition.
+
+But there are few transformation which work on per partition basis.
+
+Eg  : Use Case can be opening a connection to a remote database and iterating each element and then closing the connection, instead of opening connection for each element.
+6.       Oversubscribe
+Always oversubscribe, for example if we have 5 cores on an executor, oversubscribe at least 1.5 times or 2 times. So here we can subscribe to probably 10 tasks.
+Syntax:
+Spark-shell –master local[10] //will start with 10 worker  / slots
+
+Spark-shell –master local[*]  //as many slots as logical cores on the machine
