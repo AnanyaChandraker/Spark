@@ -1,0 +1,31 @@
+1.       Use SPARK_LOCAL_DIRS  property in spark-env.sh
+Used to store the excess data which cannot be fit in memory and at the time of execution, so it directly sends the data to the required executors.
+It is still faster than reading directly from HDFS/Cassandra etc.
+It is specified in Spark_env.sh file
+Use SSD for SPARK_LOCAL_DIRS   as it is faster than RAID HDD.
+
+2.       Prefer Cluster mode rather than Client mode with YARN
+Client Mode: - With Shell
+Cluster mode – without shell
+
+Same reason for not parallelizing, the driver might not be able to handle then end result and might crash.
+Also, for example if we started the execution from shell, and if the shell gets interrupted there is no way we can get the result.
+
+3.       Use all the available executors for processing so that we can use the advantage of Data Locality on each node.
+For example if we have 50 nodes and we start only 10 executors then the data from other 40 nodes needs to be shipped to these 40 executors which can be very costly and time consuming.
+4.       Pipelining : When we can put more than one RDD in a single stage.(Same thread does many things.- obviously in sequence )
+Eg : Map – Filter – Join
+5.       Preserve Partitioning
+In operations where we make changes to only values and not keys, for example making plural of every word (here value).
+
+Here the key is hash partitioned and we did not make any changes, so to preserve the keys with same key with hash partition we use:
+preservesPartitioning = true
+
+6.       Use Broadcast Variable and Accumulators
+
+•Broadcast variables –allows program to efficiently send a large, read-only value to all the worker nodes for use in one or more Spark operations.
+ Like sending a large, read-only lookup table to all the nodes.
+
+•Accumulators–allows to aggregate values from worker nodes back to the driver program. Can be used to count the no of errors seen in an RDD of lines spread across 100s of nodes. Only the driver can access the value of an accumulator, tasks cannot. For tasks, accumulators are write-only.
+One way to avoid shuffle when performing join operation is to use broadcast variables.
+When one of the dataset is small enough to fit in the memory of a single executor then it can be loaded into hash table of the driver and then broadcast to every executor and then the map transformation can reference the hash table to do the lookups.
