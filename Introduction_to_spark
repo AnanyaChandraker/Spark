@@ -8,11 +8,9 @@ In this article, I will introduce you to one such framework, which has made quer
 
 P.S. This article is meant for complete beginners on the topic and presumes minimal prior knowledge in Big Data
 
-introduction
+##introduction
 
- 
-
-Table of Contents
+##Table of Contents
 
 Challenges while working with Big Data
 Introduction to Distributed Computing Framework
@@ -26,9 +24,9 @@ Getting up to speed with RDD / Dataframe / Dataset
 Solving a machine learning problem
  
 
-Challenges while working with big data
+##Challenges while working with big data
 
-Challenges associated with big data can be classified in following categories:
+######Challenges associated with big data can be classified in following categories:
 
 Challenges in data capturing: Capturing huge data could be a tough task because of large volume and high velocity. There are millions of sources emanating data at high speed. To deal with this challenge, we have created devices which can capture the data effectively and efficiently. For example, sensors which not only sense data like temperature of a room, steps count, weather parameters in real time, but send this information directly over to cloud for storage.
 Challenges with data storage: Given the increase in data generation, we need more efficient ways to store data. This challenge is typically dealt by combination of various methods including increasing disk sizes, compressing the data and using multiple machines, which are connected to each other and can share data efficiently.
@@ -57,13 +55,13 @@ Please note that Apache Spark is not a replacement of Hadoop. It is actually des
 
  
 
-History of Apache Spark
+######History of Apache Spark
 
 Apache Spark was originally created at University of California, Berkeley’s AMPLab in 2009. The Spark code base was later donated to the Apache Software Foundation. Subsequently, it was open sourced in 2010. Spark is mostly written in Scala language. It has some code written in Java, Python and R. Apache Spark provides several APIs for programmers which include Java, Scala, R and Python.
 
  
 
-Key terms used in Apache Spark:
+######Key terms used in Apache Spark:
 
 cluster
 
